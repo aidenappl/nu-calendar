@@ -8,9 +8,6 @@ import (
 var (
 	Port      = getEnv("PORT", "8000")
 	CoreDBDSN = getEnvOrPanic("CORE_DB_DSN")
-
-	JWTSigningKeyARN = getEnvOrPanic("JWT_SIGNING_KEY_ARN")
-	JWTSigningKeyKID = getEnvOrPanic("JWT_SIGNING_KEY_KID")
 )
 
 func getEnv(key string, fallback string) string {
