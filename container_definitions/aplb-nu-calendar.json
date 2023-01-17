@@ -1,6 +1,6 @@
 {
 	"ipcMode": null,
-	"executionRoleArn": "arn:aws:iam::065054214443:role/AuthServiceECSTaskExecutionRole",
+	"executionRoleArn": "arn:aws:iam::605737100658:role/AuthServiceECSTaskExecutionRole",
 	"containerDefinitions": [
 		{
 			"dnsSearchDomains": null,
@@ -39,7 +39,7 @@
 			"memoryReservation": null,
 			"volumesFrom": [],
 			"stopTimeout": null,
-			"image": "065054214443.dkr.ecr.us-west-1.amazonaws.com/aplb-nu-calendar:latest",
+			"image": "605737100658.dkr.ecr.us-west-1.amazonaws.com/aplb-nu-calendar:latest",
 			"startTimeout": null,
 			"firelensConfiguration": null,
 			"dependsOn": null,
@@ -61,9 +61,9 @@
 	],
 	"placementConstraints": [],
 	"memory": "128",
-	"taskRoleArn": "arn:aws:iam::065054214443:role/AuthServiceECSTaskExecutionRole",
+	"taskRoleArn": "arn:aws:iam::605737100658:role/AuthServiceECSTaskExecutionRole",
 	"compatibilities": ["EXTERNAL", "EC2"],
-	"taskDefinitionArn": "arn:aws:ecs:us-west-1:065054214443:task-definition/aplb-nu-calendar:1",
+	"taskDefinitionArn": "arn:aws:ecs:us-west-1:605737100658:task-definition/aplb-nu-calendar:1",
 	"family": "aplb-nu-calendar",
 	"requiresAttributes": [
 		{
