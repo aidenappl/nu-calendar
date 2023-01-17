@@ -155,7 +155,7 @@ func GetCalendar(w http.ResponseWriter, r *http.Request) {
 
 		event.SetLocation(fmt.Sprintf("%s - %s", *referenceData.LocationBuilding, *referenceData.LocationRoom))
 
-		event.SetSummary(fmt.Sprintf("%s (%s - %s)", e.Summary, *referenceData.LocationBuilding, *referenceData.LocationRoom))
+		event.SetSummary(fmt.Sprintf("%s (%s - %s)", e.Summary, *referenceData.LocationBuilding, *referenceData.LocationAddress))
 
 	}
 
