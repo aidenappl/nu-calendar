@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/aidenappl/nu-calendar/env"
 	"github.com/aidenappl/nu-calendar/middleware"
@@ -14,6 +16,9 @@ import (
 )
 
 func main() {
+	// Seed the random number generator
+	rand.Seed(time.Now().UnixNano())
+
 	// Primary Router
 	primary := mux.NewRouter()
 
