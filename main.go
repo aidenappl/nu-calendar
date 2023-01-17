@@ -46,8 +46,11 @@ func main() {
 	// Add Calendar
 	r.HandleFunc("/initializer", routers.HandleInitializer).Methods(http.MethodPost)
 
+	// Get Ref Calendar
+	r.HandleFunc("/refCalendar", routers.HandleRefCalendar).Methods(http.MethodGet)
+
 	// ListEvents
-	r.HandleFunc("/listEvents", routers.HandleLaunchpad).Methods(http.MethodPost)
+	r.HandleFunc("/listEvents", routers.HandleLaunchpad).Methods(http.MethodGet)
 
 	// Edit Reference Events
 	r.HandleFunc("/editReferenceEvents", routers.HandleEditReferenceEvents).Methods(http.MethodPost)

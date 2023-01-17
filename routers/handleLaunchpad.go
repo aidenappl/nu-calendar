@@ -5,17 +5,35 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/aidenappl/nu-calendar/db"
 	"github.com/aidenappl/nu-calendar/errors"
+	"github.com/aidenappl/nu-calendar/query"
 	ics "github.com/arran4/golang-ical"
 )
 
-type HandleLaunchpadRequest struct {
-	CalendarID int `json:"calendar_id"`
-}
-
 func HandleLaunchpad(w http.ResponseWriter, r *http.Request) {
 
-	events, err := GetUserCalendar("https://northeastern.campus.eab.com/cal/OQbi8N5YcCWN/GradesFirst.ics")
+	CalSlug := r.URL.Query().Get("cal_slug")
+	if CalSlug == "" {
+		errors.SendError(w, "missing or empty field: cal_slug", "", http.StatusBadRequest)
+		return
+	}
+
+	// Get the calendar
+	calendar, err := query.GetCalendar(db.DB, query.GetCalendarRequest{
+		CalendarSlug: &CalSlug,
+	})
+	if err != nil {
+		errors.SendError(w, "error getting calendar:"+err.Error(), "", http.StatusInternalServerError)
+		return
+	}
+
+	if calendar == nil {
+		errors.SendError(w, "calendar not found", "", http.StatusBadRequest)
+		return
+	}
+
+	events, err := GetUserCalendar(calendar.EabURI)
 	if err != nil {
 		fmt.Println(err)
 		return

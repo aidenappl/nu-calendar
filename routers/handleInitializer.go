@@ -80,6 +80,19 @@ func HandleInitializer(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	w.WriteHeader(http.StatusOK)
+	// Get the calendar
+	calendar, err := query.GetCalendar(db.DB, query.GetCalendarRequest{
+		CalendarID: calID,
+	})
+	if err != nil {
+		errors.SendError(w, "error getting calendar:"+err.Error(), "", http.StatusInternalServerError)
+		return
+	}
 
+	if calendar == nil {
+		errors.SendError(w, "calendar not found", "", http.StatusBadRequest)
+		return
+	}
+
+	json.NewEncoder(w).Encode(calendar)
 }
