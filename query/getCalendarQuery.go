@@ -18,6 +18,7 @@ type Calendar struct {
 	Nickname        *string          `json:"nickname"`
 	NuEmail         string           `json:"nu_email"`
 	EabURI          string           `json:"eab_uri"`
+	Slug            string           `json:"slug"`
 	EventReferences []EventReference `json:"event_references"`
 	InsertedAt      string           `json:"inserted_at"`
 }
@@ -38,6 +39,7 @@ func GetCalendar(db db.Queryable, req GetCalendarRequest) (*Calendar, error) {
 		"nu_calendar.cal_links.nickname",
 		"nu_calendar.cal_links.nu_email",
 		"nu_calendar.cal_links.eab_uri",
+		"nu_calendar.cal_links.slug",
 		"nu_calendar.cal_links.inserted_at",
 	).
 		From("nu_calendar.cal_links").
@@ -66,6 +68,8 @@ func GetCalendar(db db.Queryable, req GetCalendarRequest) (*Calendar, error) {
 		return nil, fmt.Errorf("error executing sql query: %v", err)
 	}
 
+	defer rows.Close()
+
 	var calendar Calendar
 
 	for rows.Next() {
@@ -74,6 +78,7 @@ func GetCalendar(db db.Queryable, req GetCalendarRequest) (*Calendar, error) {
 			&calendar.Nickname,
 			&calendar.NuEmail,
 			&calendar.EabURI,
+			&calendar.Slug,
 			&calendar.InsertedAt,
 		)
 		if err != nil {
@@ -86,6 +91,10 @@ func GetCalendar(db db.Queryable, req GetCalendarRequest) (*Calendar, error) {
 		}
 
 		calendar.EventReferences = *references
+	}
+
+	if calendar.ID == 0 {
+		return nil, nil
 	}
 
 	return &calendar, nil
