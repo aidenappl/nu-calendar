@@ -47,7 +47,7 @@ func main() {
 	r.HandleFunc("/initializer", routers.HandleInitializer).Methods(http.MethodPost)
 
 	// Get Ref Calendar
-	r.HandleFunc("/refCalendar", routers.HandleRefCalendar).Methods(http.MethodGet)
+	r.HandleFunc("/getCalendar", routers.HandleGetCalendar).Methods(http.MethodGet)
 
 	// ListEvents
 	r.HandleFunc("/listEvents", routers.HandleLaunchpad).Methods(http.MethodGet)
