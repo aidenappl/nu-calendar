@@ -11,6 +11,7 @@ import (
 
 type HandleEditReferenceEventsReq struct {
 	EventReference   *int    `json:"event_reference_id"`
+	CustomSummary    *string `json:"custom_summary"`
 	LocationAddress  *string `json:"location_address"`
 	LocationBuilding *string `json:"location_building"`
 	LocationRoom     *string `json:"location_room"`
@@ -46,6 +47,7 @@ func HandleEditReferenceEvents(w http.ResponseWriter, r *http.Request) {
 	// Update the event reference
 	err = query.UpdateEventReference(db.DB, query.UpdateEventReferenceRequest{
 		EventReferenceID: *body.EventReference,
+		CustomSummary:    body.CustomSummary,
 		LocationAddress:  body.LocationAddress,
 		LocationBuilding: body.LocationBuilding,
 		LocationRoom:     body.LocationRoom,

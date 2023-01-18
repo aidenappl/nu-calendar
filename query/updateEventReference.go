@@ -9,6 +9,7 @@ import (
 
 type UpdateEventReferenceRequest struct {
 	EventReferenceID int
+	CustomSummary    *string
 	LocationAddress  *string
 	LocationBuilding *string
 	LocationRoom     *string
@@ -28,6 +29,10 @@ func UpdateEventReference(db db.Queryable, req UpdateEventReferenceRequest) erro
 
 	if req.LocationRoom != nil {
 		q = q.Set("nu_calendar.cal_reference_links.location_room", *req.LocationRoom)
+	}
+
+	if req.CustomSummary != nil {
+		q = q.Set("nu_calendar.cal_reference_links.custom_summary", *req.CustomSummary)
 	}
 
 	query, args, err := q.ToSql()

@@ -27,6 +27,7 @@ type EventReference struct {
 	ID               int     `json:"id"`
 	CalID            int     `json:"cal_id"`
 	Event            string  `json:"event"`
+	CustomSummary    *string `json:"custom_summary"`
 	LocationBuilding *string `json:"location_building"`
 	LocationRoom     *string `json:"location_room"`
 	LocationAddress  *string `json:"location_address"`

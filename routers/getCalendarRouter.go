@@ -23,6 +23,7 @@ type EMap struct {
 	LocationBuilding *string
 	LocationRoom     *string
 	LocationAddress  *string
+	CustomSummary    *string
 }
 
 func GetCalendar(w http.ResponseWriter, r *http.Request) {
@@ -54,6 +55,7 @@ func GetCalendar(w http.ResponseWriter, r *http.Request) {
 		courseAndLocation.LocationBuilding = eventRef.LocationBuilding
 		courseAndLocation.LocationRoom = eventRef.LocationRoom
 		courseAndLocation.LocationAddress = eventRef.LocationAddress
+		courseAndLocation.CustomSummary = eventRef.CustomSummary
 		CoursesAndLocations[eventRef.Event] = courseAndLocation
 	}
 
@@ -155,8 +157,11 @@ func GetCalendar(w http.ResponseWriter, r *http.Request) {
 
 		event.SetLocation(fmt.Sprintf("%s - %s", *referenceData.LocationBuilding, *referenceData.LocationAddress))
 
-		event.SetSummary(fmt.Sprintf("%s (%s - %s)", e.Summary, *referenceData.LocationBuilding, *referenceData.LocationRoom))
-
+		if referenceData.CustomSummary != nil {
+			event.SetSummary((fmt.Sprintf("%s (%s - %s)", *referenceData.CustomSummary, *referenceData.LocationBuilding, *referenceData.LocationRoom)))
+		} else {
+			event.SetSummary(fmt.Sprintf("%s (%s - %s)", e.Summary, *referenceData.LocationBuilding, *referenceData.LocationRoom))
+		}
 	}
 
 	serializedCal := cal.Serialize()
