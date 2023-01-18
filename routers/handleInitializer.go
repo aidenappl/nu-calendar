@@ -39,6 +39,20 @@ func HandleInitializer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Check if the user already has a calendar
+	calendar, err := query.GetCalendar(db.DB, query.GetCalendarRequest{
+		NortheasternEmail: &body.NortheasternEmail,
+	})
+	if err != nil {
+		errors.SendError(w, "error getting calendar: "+err.Error(), "", http.StatusInternalServerError)
+		return
+	}
+
+	if calendar != nil {
+		errors.SendError(w, "calendar already exists", "", http.StatusBadRequest)
+		return
+	}
+
 	// Create the calendar link
 	calID, err := query.CreateCalLink(db.DB, query.CreateCalLinkRequest{
 		NortheasternEmail: body.NortheasternEmail,
@@ -81,7 +95,7 @@ func HandleInitializer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the calendar
-	calendar, err := query.GetCalendar(db.DB, query.GetCalendarRequest{
+	calendar, err = query.GetCalendar(db.DB, query.GetCalendarRequest{
 		CalendarID: calID,
 	})
 	if err != nil {

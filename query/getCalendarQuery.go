@@ -8,8 +8,9 @@ import (
 )
 
 type GetCalendarRequest struct {
-	CalendarID   *int
-	CalendarSlug *string
+	CalendarID        *int
+	CalendarSlug      *string
+	NortheasternEmail *string
 }
 
 type Calendar struct {
@@ -49,6 +50,10 @@ func GetCalendar(db db.Queryable, req GetCalendarRequest) (*Calendar, error) {
 
 	if req.CalendarSlug != nil {
 		q = q.Where(sq.Eq{"nu_calendar.cal_links.slug": *req.CalendarSlug})
+	}
+
+	if req.NortheasternEmail != nil {
+		q = q.Where(sq.Eq{"nu_calendar.cal_links.nu_email": *req.NortheasternEmail})
 	}
 
 	query, args, err := q.ToSql()
