@@ -64,7 +64,7 @@ func HandleInitializer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the courses for that EAB link
-	events, err := GetUserCalendar("https://northeastern.campus.eab.com/cal/OQbi8N5YcCWN/GradesFirst.ics")
+	events, err := GetUserCalendar(body.EABUri)
 	if err != nil {
 		fmt.Println(err)
 		return
