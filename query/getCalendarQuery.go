@@ -31,6 +31,7 @@ type EventReference struct {
 	LocationBuilding *string `json:"location_building"`
 	LocationRoom     *string `json:"location_room"`
 	LocationAddress  *string `json:"location_address"`
+	IncludeLocation  bool    `json:"include_location"`
 	InsertedAt       string  `json:"inserted_at"`
 }
 

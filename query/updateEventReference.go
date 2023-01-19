@@ -13,6 +13,7 @@ type UpdateEventReferenceRequest struct {
 	LocationAddress  *string
 	LocationBuilding *string
 	LocationRoom     *string
+	IncludeLocation  *bool
 }
 
 func UpdateEventReference(db db.Queryable, req UpdateEventReferenceRequest) error {
@@ -33,6 +34,10 @@ func UpdateEventReference(db db.Queryable, req UpdateEventReferenceRequest) erro
 
 	if req.CustomSummary != nil {
 		q = q.Set("nu_calendar.cal_reference_links.custom_summary", *req.CustomSummary)
+	}
+
+	if req.IncludeLocation != nil {
+		q = q.Set("nu_calendar.cal_reference_links.include_location", *req.IncludeLocation)
 	}
 
 	query, args, err := q.ToSql()

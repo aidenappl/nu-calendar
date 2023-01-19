@@ -15,6 +15,7 @@ type HandleEditReferenceEventsReq struct {
 	LocationAddress  *string `json:"location_address"`
 	LocationBuilding *string `json:"location_building"`
 	LocationRoom     *string `json:"location_room"`
+	IncludeLocation  *bool   `json:"include_location"`
 }
 
 func HandleEditReferenceEvents(w http.ResponseWriter, r *http.Request) {
@@ -51,6 +52,7 @@ func HandleEditReferenceEvents(w http.ResponseWriter, r *http.Request) {
 		LocationAddress:  body.LocationAddress,
 		LocationBuilding: body.LocationBuilding,
 		LocationRoom:     body.LocationRoom,
+		IncludeLocation:  body.IncludeLocation,
 	})
 	if err != nil {
 		errors.SendError(w, "error updating event reference: "+err.Error(), "", http.StatusInternalServerError)

@@ -21,6 +21,7 @@ func GetEventReferences(db db.Queryable, req GetEventReferencesRequest) (*[]Even
 		"nu_calendar.cal_reference_links.location_building",
 		"nu_calendar.cal_reference_links.location_room",
 		"nu_calendar.cal_reference_links.location_address",
+		"nu_calendar.cal_reference_links.include_location",
 		"nu_calendar.cal_reference_links.inserted_at",
 	).
 		From("nu_calendar.cal_reference_links")
@@ -56,6 +57,7 @@ func GetEventReferences(db db.Queryable, req GetEventReferencesRequest) (*[]Even
 			&eventReference.LocationBuilding,
 			&eventReference.LocationRoom,
 			&eventReference.LocationAddress,
+			&eventReference.IncludeLocation,
 			&eventReference.InsertedAt,
 		)
 		if err != nil {
