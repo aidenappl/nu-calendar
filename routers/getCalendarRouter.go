@@ -162,6 +162,10 @@ func GetCalendar(w http.ResponseWriter, r *http.Request) {
 		} else {
 			event.SetSummary(fmt.Sprintf("%s (%s - %s)", e.Summary, *referenceData.LocationBuilding, *referenceData.LocationRoom))
 		}
+
+		var description = "<b><i>" + e.Summary + "</i></b>\n\n<b>At: </b>" + *referenceData.LocationBuilding + " " + *referenceData.LocationRoom
+
+		event.SetDescription(description)
 	}
 
 	serializedCal := cal.Serialize()
