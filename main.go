@@ -58,6 +58,9 @@ func main() {
 	// Retrieve calendar from NUCAL
 	r.HandleFunc("/calendar", routers.GetCalendar).Methods(http.MethodGet)
 
+	// ReHydrate calendar from NUCAL
+	r.HandleFunc("/rehydrate", routers.RehydrateCalendar).Methods(http.MethodPost)
+
 	// Launch Server
 	fmt.Printf("✅ APLB NuCalendar API running on port %s\n", env.Port)
 

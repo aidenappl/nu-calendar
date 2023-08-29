@@ -82,6 +82,8 @@ func GetCalendar(w http.ResponseWriter, r *http.Request) {
 
 	var events []Event
 
+	fmt.Println(c.Components)
+
 	for _, e := range c.Components {
 		var event Event
 		for _, v := range e.UnknownPropertiesIANAProperties() {
