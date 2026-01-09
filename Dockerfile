@@ -1,23 +1,31 @@
-# Simple two-container builder optimized for Go.
-# One container (golang:alpine) includes all of the Go toolchain.
-# We build code there, then move the binary into an alpine container to run.
-# This provides the smallest container size.
-# And, since Go makes binaries, we don't need any toolchain in the final container.
+# Stage 1: Build
+FROM golang:1.24-alpine AS builder
 
-FROM golang:alpine as build
-COPY . /app
+# Install git for fetching dependencies (e.g., from GitHub)
+RUN apk add --no-cache git
+
+# Set the working directory inside the container
 WORKDIR /app
-# Flags reduce binary size.
-# -w removes DWARF debugging information (for gdb)
-# -s removes Go's symbol table so you can't list functions.
-# Neither of these affect how the program runs, just how it can be debugged.
-# More info: https://stackoverflow.com/a/22276273
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o bin/compiled-binary *.go
 
-# Make sure to always use the same version of linux for building AND running!
-FROM alpine
-# Move the compiled binary file from the build container to the run container.
-COPY --from=build /app/bin/compiled-binary /app-binary
-# This environment variable is evaluated at runtime, not compiletime.
-EXPOSE $PORT
-ENTRYPOINT ["/app-binary"]
+# Copy module files and download dependencies (better layer caching)
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the rest of the source code
+COPY . .
+
+# Build the Go binary with size optimizations
+RUN go build -ldflags="-w -s" -o /bin/app
+
+# Stage 2: Minimal runtime container
+FROM alpine:latest
+
+# Copy only the compiled binary
+COPY --from=builder /bin/app /app
+
+# Set a default port environment variable
+ENV PORT=8080
+EXPOSE 8080
+
+# Run the app
+ENTRYPOINT ["/app"]
