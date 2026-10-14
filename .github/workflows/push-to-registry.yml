@@ -68,7 +68,7 @@ jobs:
           push: false
           load: true
           provenance: false
-          tags: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:latest
+          tags: registry.appleby.cloud/nu-calendar:latest
 
       # Layers that already reached the registry are skipped on a retry
       # ("Layer already exists"), so a retry only re-sends what was lost.
@@ -77,7 +77,7 @@ jobs:
       - name: Push image
         shell: bash
         env:
-          TAGS: ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:latest
+          TAGS: registry.appleby.cloud/nu-calendar:latest
         run: |
           for tag in $TAGS; do
             for attempt in 1 2 3 4 5; do
